@@ -1,9 +1,12 @@
-async function fetchResource(x, pagenum,  y){
+const { Readline } = require("readline/promises");
+
+async function fetchResource(recource, pagenum,  query){
     let paramURL;
-    if ((x == "planets" && y == undefined) ||( x == "people" && y == undefined) || (x == "starships" && y == undefined)){
-        paramURL = `https://swapi.dev/api/`+x+`/?page=`+pagenum;
+    let x = (query == undefined);
+    if ((recource == "planets" && x) ||( recource == "people" && x) || (recource == "starships" && x)){
+        paramURL = `https://swapi.dev/api/`+recource+`/?page=`+pagenum;
     } else {
-        paramURL = `https://swapi.dev/api/`+x+`?search=`+y;
+        paramURL = `https://swapi.dev/api/`+recource+`?search=`+query;
     }
     const response = await fetch(paramURL);
     const data = await response.json();
@@ -14,12 +17,35 @@ async function fetchResource(x, pagenum,  y){
         console.log(element.name)
     });
 }
+
+fetchResource("planets", 1, "tatooine");
 // function next(){
 //     if (nextPage){
 //         paramURL = new URL(nextPage)
 //     }
 // }
-//funckja posiada dwie zmienne: x, y.
-//x => wybieranie listy zasobów: "planets" / "people" / "starships" + numer strony
-//y => searching: np fetchResource("planets", "Tatooine") / fetchResource("people", "r2")
-fetchResource("planets", "2")
+
+// console.log("funckja posiada dwie zmienne: x, y.")
+// console.log('x => wybieranie listy zasobów: "planets" / "people" / "starships" + numer strony')
+// console.log('y => searching: np fetchResource("planets", "Tatooine") / fetchResource("people", "r2")')
+
+// const readline = require('readline').createInterface({
+//     input: process.stdin,
+//     output: process.stdout
+//   });
+
+//   readline.question('Aby wyświetlić stronę zasobu wybierz 1.\nAby wyświetlić konkretny obiekt wybierz 2.', option => {
+//     switch (option){
+//         case 1:
+//             // readline.question('Podaj nazwę zasobu, który chcesz wyświetlić: \n-planets\n-people\n-starships'), resource => {
+//             //     console.log(resource)
+//             // }
+//             console.log(option)
+//         case 2:
+//             console.log(option)
+//     };
+//     readline.close();
+//   });
+// // fetchResource("planets", "2")
+
+
